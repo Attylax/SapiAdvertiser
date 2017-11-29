@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SapiAdvertiser.iml" filepath="$PROJECT_DIR$/SapiAdvertiser.iml" />
+      <module fileurl="file://C:\Users\Bence\Documents\SapiAdvertiser_\SapiAdvertiser.iml" filepath="C:\Users\Bence\Documents\SapiAdvertiser_\SapiAdvertiser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SapiAdvertiser_.iml" filepath="$PROJECT_DIR$/SapiAdvertiser_.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Bence\Documents\SapiAdvertiser_\app\app.iml" filepath="C:\Users\Bence\Documents\SapiAdvertiser_\app\app.iml" />
     </modules>
   </component>
 </project>
