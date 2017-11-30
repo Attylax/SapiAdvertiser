@@ -16,5 +16,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //mDatabse = FirebaseDatabase.getInstance().getReference();
+        //it's MAAAAAGIIIIC! ^^
     }
 }
