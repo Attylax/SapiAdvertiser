@@ -1,21 +1,23 @@
 package com.project.attylax.sapiadvertiser;
 
+import android.icu.lang.UCharacter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
-
-    private DatabaseReference mDatabse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //mDatabse = FirebaseDatabase.getInstance().getReference();
         //it's MAAAAAGIIIIC! ^^
+
+        Post a = new Post("Attila1", "Ez egy szoveg", "Ez");
+
+        DataUploader.uploadPost(a);
     }
+
 }
