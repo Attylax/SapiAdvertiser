@@ -5,7 +5,8 @@
     <string name="post_time">Time of eveniment</string>
     <string name="post_date">Date of eveniment</string>
     <string name="post_place">Place of eveniment</string>
-
+    <string name="post_price">Price</string>
+    <string name="post_short">Please, give a short description.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
