@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">SapiAdvertiser</string>
-    <string name="event_name">DUMMY</string>
-    <string name="writer_name">Posted by: DUMMY</string>
-    <string name="desc_short">The mitochondria is the powerhouse of the cell.</string>
-    <string name="event_date">at 01.01.2018</string>
-    <string name="event_loc">Location: In the Middle of Nowhere</string>
-    <string name="img_desc">Dummy Image Description</string>
+    <string name="post_title">Please add a title for post.</string>
+    <string name="post_author">Poster</string>
+    <string name="post_description">Please give a description for your post.</string>
+    <string name="post_time">Time of event</string>
+    <string name="post_date">Date of event</string>
+    <string name="post_place">Place of event</string>
+    <string name="post_price">Price</string>
+    <string name="post_short">Please give a short description.</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_event_details">EventDetailsActivity</string>
 </resources>

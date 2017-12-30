@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,7 +34,7 @@ public class SapiAdvImageAdapter extends RecyclerView.Adapter<SapiAdvImageAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.img.setImageDrawable();
+        //holder.img.setImageDrawable();
     }
 
     @Override
