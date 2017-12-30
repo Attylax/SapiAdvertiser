@@ -5,4 +5,5 @@
     <string name="desc_short">The mitochondria is the powerhouse of the cell.</string>
     <string name="event_date">at 01.01.2018</string>
     <string name="event_loc">Location: In the Middle of Nowhere</string>
+    <string name="img_desc">Dummy Image Description</string>
 </resources>

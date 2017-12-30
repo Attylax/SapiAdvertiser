@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         listOfEvents.add(b);
         listOfEvents.add(c);
 
-        adapter = new SapiAdvPostAdapter(listOfEvents);
+        adapter = new SapiAdvPostAdapter(listOfEvents, this);
         rvPosts.setAdapter(adapter);
 
         DataUploader.uploadPost(a);
