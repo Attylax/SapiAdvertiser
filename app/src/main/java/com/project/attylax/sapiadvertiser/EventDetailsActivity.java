@@ -1,29 +1,53 @@
 package com.project.attylax.sapiadvertiser;
 
-import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public class EventDetailsActivity extends AppCompatActivity {
-    private Intent intent = getIntent();
     TextView tvTitle, tvDate, tvTime, tvPlace, tvDesc;
+    RecyclerView rvImages;
+    ArrayList<ImageView> images;
+    List<Uri> imgPaths = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_details);
-        Post postData = intent.getParcelableExtra("POST_DATA");
+        Post postData = Objects.requireNonNull(getIntent().getExtras()).getParcelable("POST_DATA");
         tvTitle = findViewById(R.id.tv_post_title);
         tvDate = findViewById(R.id.tv_post_date);
         tvTime = findViewById(R.id.tv_post_time);
         tvPlace = findViewById(R.id.tv_post_place);
         tvDesc = findViewById(R.id.tv_post_desc);
+        rvImages = findViewById(R.id.rv_post_images);
+        LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rvImages.setLayoutManager(llm);
 
-        tvTitle.setText(postData.getEventName());
-        tvDate.setText(postData.getEventDate());
-        tvTime.setText(postData.getEventTime());
-        tvPlace.setText(postData.getEventLocation());
-        tvDesc.setText(postData.getDescription());
+        if (postData != null) {
+            tvTitle.setText(postData.getEventName());
+            tvDate.setText(postData.getEventDate());
+            tvTime.setText(postData.getEventTime());
+            tvPlace.setText(postData.getEventLocation());
+            tvDesc.setText(postData.getDescription());
+            imgPaths = postData.getImagesPath();
+            images = new ArrayList<>(imgPaths.size());
+
+            /*for (int i = 0; i < imgPaths.size(); ++i){
+                images.add(new ImageView(this));
+                Glide.with(this).load(imgPaths.get(i)).into(images.get(i));
+            }*/
+
+            rvImages.setAdapter(new SapiAdvImageAdapter(this, imgPaths));
+
+        }
     }
 }

@@ -56,23 +56,13 @@
                 android:layout_below="@+id/tv_writer"
                 android:text="@string/post_place" />
 
-            <HorizontalScrollView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_post_images"
                 android:layout_width="match_parent"
-                android:layout_height="121dp"
+                android:layout_height="100dp"
                 android:layout_alignParentStart="true"
-                android:layout_below="@+id/tv_descShort">
+                android:layout_below="@+id/tv_descShort" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv_post_images"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </LinearLayout>
-            </HorizontalScrollView>
         </RelativeLayout>
 
 

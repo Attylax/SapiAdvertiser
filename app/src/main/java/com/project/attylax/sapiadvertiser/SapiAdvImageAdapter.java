@@ -1,20 +1,27 @@
 package com.project.attylax.sapiadvertiser;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 
 public class SapiAdvImageAdapter extends RecyclerView.Adapter<SapiAdvImageAdapter.ViewHolder> {
-    private List<ImageView> images;
+    private List<Uri> imgPaths;
+    private Context context;
+    private final float scale;
 
-    SapiAdvImageAdapter(List<ImageView> images){
-        this.images = images;
+    SapiAdvImageAdapter(Context context, List<Uri> imgPaths){
+        this.context = context;
+        this.imgPaths = imgPaths;
+        scale = context.getResources().getDisplayMetrics().density;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -34,11 +41,11 @@ public class SapiAdvImageAdapter extends RecyclerView.Adapter<SapiAdvImageAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //holder.img.setImageDrawable();
+        Glide.with(context).load(imgPaths.get(position)).placeholder(R.drawable.dummy_image).override((int)(100*scale), (int)(100*scale)).centerCrop().into(holder.img);
     }
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return imgPaths.size();
     }
 }

@@ -151,4 +151,11 @@ public class Post implements Parcelable{
         return eventTime;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public List<Uri> getImagesPath() {
+        return imagesPath;
+    }
 }

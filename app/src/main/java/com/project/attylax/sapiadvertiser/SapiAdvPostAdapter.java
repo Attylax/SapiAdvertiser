@@ -2,6 +2,8 @@ package com.project.attylax.sapiadvertiser;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +31,8 @@ public class SapiAdvPostAdapter extends RecyclerView.Adapter<SapiAdvPostAdapter.
     class ViewHolder extends RecyclerView.ViewHolder{
         CardView cvPost;
         TextView tvEvent, tvWriter, tvShortDesc, tvDate, tvLoc;
-        List<ImageView> ivImages = new ArrayList<>();
+        List<ImageView> ivImages;
+        List<Uri> imgPaths = new ArrayList<>();
         RecyclerView rvImages;
 
         ViewHolder(View view){
@@ -60,16 +63,24 @@ public class SapiAdvPostAdapter extends RecyclerView.Adapter<SapiAdvPostAdapter.
         holder.tvLoc.setText(objects.get(position).getEventLocation());
         LinearLayoutManager imgLM = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         holder.rvImages.setLayoutManager(imgLM);
-        SapiAdvImageAdapter imgAdapter = new SapiAdvImageAdapter(holder.ivImages);
+        holder.imgPaths = objects.get(position).getImagesPath();
+        holder.ivImages = new ArrayList<>(holder.imgPaths.size());
+        /*for (int i = 0; i < holder.imgPaths.size(); ++i){
+            holder.ivImages.add(new ImageView(context));
+            Glide.with(context).load(holder.imgPaths.get(i)).into(holder.ivImages.get(i));
+        }*/
+        SapiAdvImageAdapter imgAdapter = new SapiAdvImageAdapter(context, holder.imgPaths);
         holder.rvImages.setAdapter(imgAdapter);
 
         final int posF = position;
 
-        holder.cvPost.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                intent.putExtra("POST_DATA", objects.get(posF));
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("POST_DATA", objects.get(posF));
+                intent.putExtras(bundle);
                 context.startActivity(intent);
             }
         });
