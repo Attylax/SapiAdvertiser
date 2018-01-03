@@ -7,16 +7,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
-public class PostUpladerService extends Service {
+public class PostUploaderService extends Service {
 
     /**
      * Intent Actions
@@ -103,20 +101,20 @@ public class PostUpladerService extends Service {
 
                 switch (intent.getAction()) {
 
-                    case FIleUploader.UPLOAD_COMPLETED:
-                            String stringPath = intent.getStringExtra(FIleUploader.EXTRA_DOWNLOAD_URL);
+                    case FileUploader.UPLOAD_COMPLETED:
+                            String stringPath = intent.getStringExtra(FileUploader.EXTRA_DOWNLOAD_URL);
                             Uri path = null;
                             if(stringPath != null) {
                                 path = Uri.parse(stringPath);
                                 Log.d("Post", path.toString());
                             }
                             Post post = getPost();
-                            stringPath = intent.getStringExtra(FIleUploader.EXTRA_FILE_URI);
+                            stringPath = intent.getStringExtra(FileUploader.EXTRA_FILE_URI);
                             if(stringPath != null) {
                                 Log.i("uzenetek",stringPath);
-                                int index = post.indexOf(Uri.parse(stringPath));
+                                int index = post.indexOf(stringPath);
 
-                                post.setDownloadLink(index, path);
+                                post.setDownloadLink(index, path.toString());
                             }
                             ++counter;
                             if(counter == post.getSize()){
@@ -129,7 +127,7 @@ public class PostUpladerService extends Service {
                             }
 
                         break;
-                    case FIleUploader.UPLOAD_ERROR:
+                    case FileUploader.UPLOAD_ERROR:
                         broadcastUploadFinished(false);
                         taskCompleted();
                         break;
@@ -138,9 +136,10 @@ public class PostUpladerService extends Service {
         };
         start();
         for(int i = 0; i < post.getSize(); ++i){
-            startService(new Intent(PostUpladerService.this, FIleUploader.class)
-                    .putExtra(FIleUploader.EXTRA_FILE_URI, post.getImagePath(i))
-                    .setAction(FIleUploader.ACTION_UPLOAD));
+            startService(new Intent(this, FileUploader.class)
+                    .putExtra(FileUploader.EXTRA_FILE_URI, post.getImagePath(i))
+                    .setAction(FileUploader.ACTION_UPLOAD));
+
         }
     }
 
@@ -152,7 +151,7 @@ public class PostUpladerService extends Service {
 
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
 
-        manager.registerReceiver(broadcastReceiver, FIleUploader.getIntentFilter());
+        manager.registerReceiver(broadcastReceiver, FileUploader.getIntentFilter());
     }
 
 

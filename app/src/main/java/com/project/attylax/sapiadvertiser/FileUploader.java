@@ -17,7 +17,9 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-public class FIleUploader extends Service {
+import java.util.Objects;
+
+public class FileUploader extends Service {
 
     /** Intent Actions **/
     public static final String ACTION_UPLOAD = "action_upload";
@@ -48,7 +50,7 @@ public class FIleUploader extends Service {
         }
     }
 
-    public FIleUploader() {
+    public FileUploader() {
     }
 
     @Override
@@ -88,7 +90,7 @@ public class FIleUploader extends Service {
                         // Upload succeeded
 
                         // Get the public download URL
-                        Uri downloadUri = taskSnapshot.getMetadata().getDownloadUrl();
+                        Uri downloadUri = Objects.requireNonNull(taskSnapshot.getMetadata()).getDownloadUrl();
 
                         // [START_EXCLUDE]
                         broadcastUploadFinished(downloadUri, fileUri);

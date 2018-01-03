@@ -1,0 +1,8 @@
+diff a/app/src/main/java/com/project/attylax/sapiadvertiser/MainActivity.java b/app/src/main/java/com/project/attylax/sapiadvertiser/MainActivity.java	(rejected hunks)
+@@ -16,5 +16,6 @@
+         setContentView(R.layout.activity_main);
+ 
+         //mDatabse = FirebaseDatabase.getInstance().getReference();
++        //it's MAAAAAGIIIIC! ^^
+     }
+ }

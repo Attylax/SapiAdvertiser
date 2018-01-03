@@ -7,8 +7,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.MainThread;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -40,7 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Locale;
+import java.util.Objects;
 
 import android.Manifest;
 import android.widget.Toast;
@@ -57,20 +57,20 @@ public class NewPostActivity extends AppCompatActivity {
     private EditText price;
     private EditText shortDescription;
 
-    private List<ImageView> images = new ArrayList<>(3);;
+    private List<ImageView> images = new ArrayList<>(3);
     private FloatingActionButton submitButton;
     private ImageView actualImage;
 
     private BroadcastReceiver broadcastReceiver;
 
-    private final Calendar timeOfEveniment = Calendar.getInstance();
+    private final Calendar timeOfEvent = Calendar.getInstance();
 
     final int PLACE_PICKER_REQUEST = 1;
     final int IMAGE_PICKER_REQUEST = 2;
 
     private PlacePicker.IntentBuilder builder;
 
-    private List<Uri> imagesPath = new ArrayList<>(3);
+    private List<String> imagesPath = new ArrayList<>(3);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,23 +96,23 @@ public class NewPostActivity extends AppCompatActivity {
 
                 Log.d("uzenet", "megjott valami");
 
-                switch (intent.getAction()) {
+                switch (Objects.requireNonNull(intent.getAction())) {
 
-                    case PostUpladerService.POST_UPLOAD_COMPLETED:
+                    case PostUploaderService.POST_UPLOAD_COMPLETED:
                         text = "Upload Successful!";
                         duration = Toast.LENGTH_SHORT;
 
                         toast = Toast.makeText(context, text, duration);
                         toast.show();
-                        try {
-                            Thread.sleep(6000);
-                        }catch (InterruptedException e){
-                            Log.d("baj", e.getMessage());
-                        }finally {
-                            finish();
-                        }
+                        Handler h = new Handler();
+                        h.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    NewPostActivity.this.finish();
+                                }
+                            }, 6000);
                         break;
-                    case PostUpladerService.POST_UPLOAD_ERROR:
+                    case PostUploaderService.POST_UPLOAD_ERROR:
                         text = "Error while upload...!";
                         duration = Toast.LENGTH_SHORT;
 
@@ -131,7 +131,7 @@ public class NewPostActivity extends AppCompatActivity {
 
         LocalBroadcastManager manager = LocalBroadcastManager.getInstance(this);
 
-        manager.registerReceiver(broadcastReceiver, PostUpladerService.getIntentFilter());
+        manager.registerReceiver(broadcastReceiver, PostUploaderService.getIntentFilter());
     }
 
     @Override
@@ -148,8 +148,8 @@ public class NewPostActivity extends AppCompatActivity {
 
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        timeOfEveniment.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        timeOfEveniment.set(Calendar.MINUTE, minute);
+                        timeOfEvent.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        timeOfEvent.set(Calendar.MINUTE, minute);
                         updateTime();
                     }
                 };
@@ -159,8 +159,8 @@ public class NewPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new TimePickerDialog(NewPostActivity.this, 4, timeDialog,
-                        timeOfEveniment.get(Calendar.HOUR_OF_DAY),
-                        timeOfEveniment.get(Calendar.MINUTE), true).show();
+                        timeOfEvent.get(Calendar.HOUR_OF_DAY),
+                        timeOfEvent.get(Calendar.MINUTE), true).show();
             }
         });
 
@@ -169,9 +169,9 @@ public class NewPostActivity extends AppCompatActivity {
 
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        timeOfEveniment.set(Calendar.YEAR, year);
-                        timeOfEveniment.set(Calendar.MONTH, monthOfYear);
-                        timeOfEveniment.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        timeOfEvent.set(Calendar.YEAR, year);
+                        timeOfEvent.set(Calendar.MONTH, monthOfYear);
+                        timeOfEvent.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                         updateDate();
                     }
                 };
@@ -180,8 +180,8 @@ public class NewPostActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new DatePickerDialog(NewPostActivity.this, 0, dateDialog,
-                        timeOfEveniment.get(Calendar.YEAR), timeOfEveniment.get(Calendar.MONTH),
-                        timeOfEveniment.get(Calendar.DAY_OF_YEAR)).show();
+                        timeOfEvent.get(Calendar.YEAR), timeOfEvent.get(Calendar.MONTH),
+                        timeOfEvent.get(Calendar.DAY_OF_YEAR)).show();
             }
         });
 
@@ -218,14 +218,10 @@ public class NewPostActivity extends AppCompatActivity {
             image.setOnClickListener(selectImage);
         }
 
-        for(int i =0 ; i < 3; ++i){
+        for(int i = 0; i < 3; ++i){
             imagesPath.add(null);
         }
 
-/*        image1.setOnClickListener(selectImage);
-        image2.setOnClickListener(selectImage);
-        image3.setOnClickListener(selectImage);
-*/
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -233,29 +229,30 @@ public class NewPostActivity extends AppCompatActivity {
 
                 Log.d("Post", "Meghivva");
                 if(checkInputs()) {
+                    Log.d("check", "bement");
                     submitButton.setVisibility(View.GONE);
-                    startService(new Intent(NewPostActivity.this, PostUpladerService.class)
-                            .putExtra(PostUpladerService.EXTRA_POST_OBJECT, createPost())
-                            .setAction(PostUpladerService.POST_ACTION_UPLOAD));
+                    startService(new Intent(NewPostActivity.this, PostUploaderService.class)
+                            .putExtra(PostUploaderService.EXTRA_POST_OBJECT, createPost())
+                            .setAction(PostUploaderService.POST_ACTION_UPLOAD));
                 }
             }
         });
     }
 
     private void searchViews(){
-        title = (EditText) findViewById(R.id.postTitle);
-        description = (EditText) findViewById(R.id.postDescription);
-        time = (EditText) findViewById(R.id.postTime);
-        date = (EditText) findViewById(R.id.postDate);
-        place = (EditText) findViewById(R.id.postPlace);
-        price = (EditText) findViewById(R.id.postPrice);
-        shortDescription = (EditText) findViewById(R.id.post_short);
+        title = findViewById(R.id.postTitle);
+        description = findViewById(R.id.postDescription);
+        time = findViewById(R.id.postTime);
+        date = findViewById(R.id.postDate);
+        place = findViewById(R.id.postPlace);
+        price = findViewById(R.id.postPrice);
+        shortDescription = findViewById(R.id.post_short);
 
         images.add((ImageView) findViewById(R.id.postImage1));
         images.add((ImageView) findViewById(R.id.postImage2));
         images.add((ImageView) findViewById(R.id.postImage3));
         builder = new PlacePicker.IntentBuilder();
-        submitButton = (FloatingActionButton) findViewById(R.id.fab_submit_post);
+        submitButton = findViewById(R.id.fab_submit_post);
 
     }
 
@@ -279,13 +276,13 @@ public class NewPostActivity extends AppCompatActivity {
 
     private void updateTime() {
         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:MM");
-        time.setText(timeFormat.format(timeOfEveniment.getTime()));
+        time.setText(timeFormat.format(timeOfEvent.getTime()));
     }
 
 
     private void updateDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
-        date.setText(dateFormat.format(timeOfEveniment.getTime()));
+        date.setText(dateFormat.format(timeOfEvent.getTime()));
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -306,7 +303,7 @@ public class NewPostActivity extends AppCompatActivity {
                         // Log.d(TAG, String.valueOf(bitmap));
 
                         actualImage.setImageBitmap(bitmap);
-                        imagesPath.set(images.indexOf(actualImage), uri);
+                        imagesPath.set(images.indexOf(actualImage), uri.toString());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -318,7 +315,7 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private Post createPost(){
-        Post post = new Post(title.getText().toString(), "Attila", "1", description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
+        Post post = new Post(title.getText().toString(), , "1", description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), place.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
         Gson gson = new Gson();
         String json = gson.toJson(post);
         Log.d("Post", json);
@@ -352,35 +349,30 @@ public class NewPostActivity extends AppCompatActivity {
             ok = false;
         }
         if (price.getText().toString().trim().equals("")) {
-            price.setError("Price is required even if it's free!");
+            price.setError("Price is required! (write 0 if the event is free)");
             ok = false;
         }
 
         CharSequence text;
-        int duration;
-        Toast toast;
 
         if(imagesPath.get(0) == null || imagesPath.get(1) == null || imagesPath.get(2) == null){
             text = "Have to upload 3 photos!";
-            duration = Toast.LENGTH_SHORT;
 
-            toast = Toast.makeText(NewPostActivity.this, text, duration);
-            toast.show();
+            Toast.makeText(NewPostActivity.this, text, Toast.LENGTH_SHORT)
+                    .show();
             ok = false;
         }else{
             if(imagesPath.get(0).equals(imagesPath.get(1)) || imagesPath.get(0).equals(imagesPath.get(2)) ||
                     imagesPath.get(1).equals(imagesPath.get(2))){
                 text = "The images have to be different!";
-                duration = Toast.LENGTH_SHORT;
 
-                toast = Toast.makeText(NewPostActivity.this, text, duration);
-                toast.show();
-
+                Toast.makeText(NewPostActivity.this, text, Toast.LENGTH_LONG)
+                        .show();
                 ok = false;
             }
         }
 
-
+        Log.d("Check", ok == true ? "true" : "false");
 
         return ok;
     }

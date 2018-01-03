@@ -1,4 +1,5 @@
-package com.project.attylax.sapiadvertiser; /**
+package com.project.attylax.sapiadvertiser;
+/**
  * Created by attylax on 04.12.2017.
  */
 
@@ -12,30 +13,34 @@ import java.util.List;
 
 public class Post implements Parcelable{
     private static final String TAG = "POST";
+    private String eventName;
     private String writerName;
     private String writerId;
     private String description;
     private String shortDescription;
-    private String date;
-    private String time;
+    private String eventLocation;
+    private String eventDate;
+    private String eventTime;
     private double price;
-    private String place;
-    private String title;
 
 
-    private List<Uri> imagesPath = new ArrayList<>();
+    private List<String> imagesPath = new ArrayList<>();
 
-    public Post(String title, String writerName, String writerId, String description, String shortDescription, String date, String time, String place, double price, List<Uri> imagesPath) {
-        this.title = title;
+    public Post(String eventName, String writerName, String writerId, String description, String descShort, String eventDate, String eventLocation, String eventTime, double price, List<String> imagesPath) {
+        this.eventName = eventName;
         this.writerName = writerName;
         this.writerId = writerId;
         this.description = description;
-        this.shortDescription = shortDescription;
-        this.date = date;
-        this.time = time;
+        this.shortDescription = descShort;
+        this.eventLocation = eventLocation;
+        this.eventDate = eventDate;
+        this.eventTime = eventTime;
         this.price = price;
-        this.place = place;
         this.imagesPath = imagesPath;
+    }
+
+    public Post(){
+
     }
 
     @Override
@@ -45,19 +50,20 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(title);
+        dest.writeString(eventName);
         dest.writeString(writerName);
         dest.writeString(writerId);
         dest.writeString(description);
         dest.writeString(shortDescription);
-        dest.writeString(date);
-        dest.writeString(time);
-        dest.writeString(place);
+        dest.writeString(eventDate);
+        dest.writeString(eventTime);
+        dest.writeString(eventLocation);
+
         dest.writeString(Double.toString(price));
         Log.d("Post", Double.toString(price));
         //dest.write
         //List<String> uriInString = new ArrayList<>(3);
-        for(Uri uri : imagesPath){
+        for(String uri : imagesPath){
 
             //uriInString.add(uri.toString());
             Log.d("Post", uri.toString());
@@ -68,7 +74,8 @@ public class Post implements Parcelable{
     }
 
     public Post(Parcel in){
-        title = in.readString();
+        eventName = in.readString();
+        Log.d("Post", eventName);
         writerName = in.readString();
         Log.d("Post", writerName);
         writerId = in.readString();
@@ -76,19 +83,21 @@ public class Post implements Parcelable{
         Log.d("Post", description);
         shortDescription = in.readString();
         Log.d("Post", shortDescription);
-        date = in.readString();
-        Log.d("Post", date);
-        time = in.readString();
-        Log.d("Post", time);
 
-        place = in.readString();
+        eventDate = in.readString();
+        Log.d("Post", eventDate);
+        eventTime = in.readString();
+        Log.d("Post", eventTime);
+        eventLocation = in.readString();
+        Log.d("Post", eventLocation);
+
         price = Double.parseDouble(in.readString());
 
         Log.d("Post", Double.toString(price));
-        //List<String> uriInString = new ArrayList<>(3);
-        //uriInString = in.readArrayList(null);
+
         for(int i = 0; i < 3; ++i){
-            imagesPath.add(Uri.parse(in.readString()));
+            //imagesPath.add(Uri.parse(in.readString()));
+            imagesPath.add(in.readString());
             Log.d("Post", imagesPath.get(i).toString());
         }
     }
@@ -107,46 +116,59 @@ public class Post implements Parcelable{
         return writerId;
     }
 
-    public void setDownloadLink(int index, Uri uri){
+    public void setDownloadLink(int index, String uri){
         imagesPath.set(index, uri);
     }
 
-    public Uri getImagePath(int index){
+    public String getImagePath(int index){
         return imagesPath.get(index);
     }
 
-    public int indexOf(Uri path){
+    public int indexOf(String path){
         return imagesPath.indexOf(path);
     }
 
-    public int getSize(){
+
+    public int getSize() {
         return imagesPath.size();
     }
+
+    public String getEventName() {
+        return eventName;
+    }
+
+    public String getWriterName() {
+        return writerName;
+}
 
     public String getDescription() {
         return description;
     }
 
+
     public String getShortDescription() {
         return shortDescription;
     }
 
-    public String getDate() {
-        return date;
+    public String getEventLocation() {
+        return eventLocation;
     }
 
-    public String getTime() {
-        return time;
+    public String getEventDate() {
+        return eventDate;
     }
 
-    public String getPlace() {
-        return place;
+    public String getEventTime() {
+        return eventTime;
     }
 
     public double getPrice() {
         return price;
     }
-    public String getTitle(){
-        return title;
+
+
+    public List<String> getImagesPath() {
+        return imagesPath;
+
     }
 }
