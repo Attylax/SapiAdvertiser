@@ -318,7 +318,7 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private Post createPost(){
-        Post post = new Post("Attila", "1", description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
+        Post post = new Post(title.getText().toString(), "Attila", "1", description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
         Gson gson = new Gson();
         String json = gson.toJson(post);
         Log.d("Post", json);

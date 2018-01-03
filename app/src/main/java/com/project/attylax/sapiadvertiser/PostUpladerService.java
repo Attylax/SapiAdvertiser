@@ -29,6 +29,7 @@ public class PostUpladerService extends Service {
      * Intent Extras
      **/
     public static final String EXTRA_POST_OBJECT = "extra_Post_object";
+    public static final String EXTRA_POST_ID = "extra_post_id";
 
     private DatabaseReference mDatabase;
 
@@ -68,23 +69,32 @@ public class PostUpladerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
+        String id = null;
         if (POST_ACTION_UPLOAD.equals(intent.getAction())) {
             Log.d("Post", "Megjott");
             post = intent.getParcelableExtra(EXTRA_POST_OBJECT);
             Gson gson = new Gson();
             String json = gson.toJson(post);
             Log.d("Post", json);
-            uploadPost(post);
+            if(intent.hasExtra(EXTRA_POST_ID)){
+                id = intent.getStringExtra(EXTRA_POST_ID);
+            }
+            uploadPost(post, id);
         }
 
         return START_REDELIVER_INTENT;
     }
 
-    private void uploadPost(Post post) {
+    private void uploadPost(Post post, String id) {
         taskStarted();
 
-        final String key = mDatabase.child("posts").push().getKey();
+        final String key;
 
+        if(id == null) {
+            key = mDatabase.child("posts").push().getKey();
+        }else{
+            key = id;
+        }
 
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -109,7 +119,7 @@ public class PostUpladerService extends Service {
                                 post.setDownloadLink(index, path);
                             }
                             ++counter;
-                            if(counter == 3){
+                            if(counter == post.getSize()){
                                 Gson gson = new Gson();
                                 String json = gson.toJson(post);
                                 mDatabase.child("posts").child(key).setValue(json);
@@ -127,7 +137,7 @@ public class PostUpladerService extends Service {
             }
         };
         start();
-        for(int i = 0; i < 3; ++i){
+        for(int i = 0; i < post.getSize(); ++i){
             startService(new Intent(PostUpladerService.this, FIleUploader.class)
                     .putExtra(FIleUploader.EXTRA_FILE_URI, post.getImagePath(i))
                     .setAction(FIleUploader.ACTION_UPLOAD));

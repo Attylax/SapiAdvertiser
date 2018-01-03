@@ -19,11 +19,14 @@ public class Post implements Parcelable{
     private String date;
     private String time;
     private double price;
+    private String place;
+    private String title;
 
 
     private List<Uri> imagesPath = new ArrayList<>();
 
-    public Post(String writerName, String writerId, String description, String shortDescription, String date, String time, double price, List<Uri> imagesPath) {
+    public Post(String title, String writerName, String writerId, String description, String shortDescription, String date, String time, String place, double price, List<Uri> imagesPath) {
+        this.title = title;
         this.writerName = writerName;
         this.writerId = writerId;
         this.description = description;
@@ -31,6 +34,7 @@ public class Post implements Parcelable{
         this.date = date;
         this.time = time;
         this.price = price;
+        this.place = place;
         this.imagesPath = imagesPath;
     }
 
@@ -41,12 +45,14 @@ public class Post implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
         dest.writeString(writerName);
         dest.writeString(writerId);
         dest.writeString(description);
         dest.writeString(shortDescription);
         dest.writeString(date);
         dest.writeString(time);
+        dest.writeString(place);
         dest.writeString(Double.toString(price));
         Log.d("Post", Double.toString(price));
         //dest.write
@@ -62,6 +68,7 @@ public class Post implements Parcelable{
     }
 
     public Post(Parcel in){
+        title = in.readString();
         writerName = in.readString();
         Log.d("Post", writerName);
         writerId = in.readString();
@@ -73,6 +80,8 @@ public class Post implements Parcelable{
         Log.d("Post", date);
         time = in.readString();
         Log.d("Post", time);
+
+        place = in.readString();
         price = Double.parseDouble(in.readString());
 
         Log.d("Post", Double.toString(price));
@@ -108,5 +117,36 @@ public class Post implements Parcelable{
 
     public int indexOf(Uri path){
         return imagesPath.indexOf(path);
+    }
+
+    public int getSize(){
+        return imagesPath.size();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getShortDescription() {
+        return shortDescription;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+    public String getTitle(){
+        return title;
     }
 }
