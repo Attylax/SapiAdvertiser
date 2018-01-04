@@ -19,6 +19,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
 
+/**
+ * This class is responsible for upload the post's images to firebase storage
+ */
 public class FileUploader extends Service {
 
     /** Intent Actions **/
@@ -41,6 +44,10 @@ public class FileUploader extends Service {
         changeNumberOfTasks(-1);
     }
 
+    /**
+     * This function checks if this class has work or not. If haven't it's stop.
+     * @param delta
+     */
     private synchronized void changeNumberOfTasks(int delta) {
         mNumTasks += delta;
 
@@ -70,6 +77,10 @@ public class FileUploader extends Service {
         return START_REDELIVER_INTENT;
     }
 
+    /**
+     * This function uploads the image which one got as parameter.
+     * @param fileUri
+     */
     private void uploadFromUri(final Uri fileUri) {
 
         // [START_EXCLUDE]
@@ -114,6 +125,12 @@ public class FileUploader extends Service {
                 });
     }
 
+    /**
+     * This function sends back downloadUrl
+     * @param downloadUrl
+     * @param fileUri
+     * @return
+     */
     private boolean broadcastUploadFinished(@Nullable Uri downloadUrl, @Nullable Uri fileUri) {
         boolean success = downloadUrl != null;
 

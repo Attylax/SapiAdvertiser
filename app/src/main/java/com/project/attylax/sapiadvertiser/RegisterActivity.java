@@ -14,6 +14,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/**
+ * This class is responsible for the registration
+ */
 public class RegisterActivity extends AppCompatActivity {
 
     EditText email;

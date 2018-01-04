@@ -14,6 +14,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 
+/**
+ * This class is responsible for upload post to firebase database
+ */
 public class PostUploaderService extends Service {
 
     /**
@@ -83,6 +86,11 @@ public class PostUploaderService extends Service {
         return START_REDELIVER_INTENT;
     }
 
+    /**
+     * This function inserts post into database with ID which one got as parameter.
+     * @param post
+     * @param id
+     */
     private void uploadPost(Post post, String id) {
         taskStarted();
 
@@ -161,6 +169,11 @@ public class PostUploaderService extends Service {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
+    /**
+     * This function sends back if this upload are successful or not.
+     * @param success
+     * @return
+     */
     private boolean broadcastUploadFinished(boolean success) {
 
         String action = success ? POST_UPLOAD_COMPLETED : POST_UPLOAD_ERROR;

@@ -143,6 +143,9 @@ public class NewPostActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
     }
 
+    /**
+     * This function is responsible for add onClickLiseners on the views
+     */
     private void setOnClickLiseners(){
         final TimePickerDialog.OnTimeSetListener timeDialog =
                 new TimePickerDialog.OnTimeSetListener() {
@@ -240,6 +243,9 @@ public class NewPostActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function is responsible for find views
+     */
     private void searchViews(){
         title = findViewById(R.id.postTitle);
         description = findViewById(R.id.postDescription);
@@ -257,6 +263,9 @@ public class NewPostActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * This function is responsible for check if the application has the rights for working correctly
+     */
     void checkPermissions() {
         if (ContextCompat.checkSelfPermission(NewPostActivity.this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -275,17 +284,29 @@ public class NewPostActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Update the EditText which display chosen time
+     */
     private void updateTime() {
-        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:MM");
+        SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
         time.setText(timeFormat.format(timeOfEvent.getTime()));
     }
 
-
+    /**
+     * Update the EditText which display chosen date
+     */
     private void updateDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("YYYY-MM-dd");
         date.setText(dateFormat.format(timeOfEvent.getTime()));
     }
 
+    /**
+     * This funtion is responsable to process data from another activitys which one were started for result
+     * This Activities were: PlacePicker and ImagePicker
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
@@ -315,6 +336,10 @@ public class NewPostActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     *
+     * @return a post object which one is created by data from EditTexts
+     */
     private Post createPost(){
         Post post = new Post(title.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), FirebaseAuth.getInstance().getCurrentUser().getUid(), description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), place.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
         Gson gson = new Gson();
@@ -323,6 +348,10 @@ public class NewPostActivity extends AppCompatActivity {
         return post;
     }
 
+    /**
+     *
+     * @return a boolean value. It's true if any input field is fill in correctly.
+     */
     private boolean checkInputs() {
         boolean ok = true;
         if (title.getText().toString().trim().equals("")) {
