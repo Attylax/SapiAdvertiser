@@ -31,6 +31,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.gson.Gson;
 
@@ -45,7 +46,9 @@ import java.util.Objects;
 import android.Manifest;
 import android.widget.Toast;
 
-
+/**
+ * Class for create new post.
+ */
 public class NewPostActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 
@@ -65,10 +68,8 @@ public class NewPostActivity extends AppCompatActivity {
 
     private final Calendar timeOfEvent = Calendar.getInstance();
 
-    final int PLACE_PICKER_REQUEST = 1;
-    final int IMAGE_PICKER_REQUEST = 2;
-
-    private PlacePicker.IntentBuilder builder;
+    private final int PLACE_PICKER_REQUEST = 1;
+    private final int IMAGE_PICKER_REQUEST = 2;
 
     private List<String> imagesPath = new ArrayList<>(3);
 
@@ -251,7 +252,7 @@ public class NewPostActivity extends AppCompatActivity {
         images.add((ImageView) findViewById(R.id.postImage1));
         images.add((ImageView) findViewById(R.id.postImage2));
         images.add((ImageView) findViewById(R.id.postImage3));
-        builder = new PlacePicker.IntentBuilder();
+        //builder = new PlacePicker.IntentBuilder();
         submitButton = findViewById(R.id.fab_submit_post);
 
     }
@@ -315,7 +316,7 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     private Post createPost(){
-        Post post = new Post(title.getText().toString(), , "1", description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), place.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
+        Post post = new Post(title.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName(), FirebaseAuth.getInstance().getCurrentUser().getUid(), description.getText().toString(), shortDescription.getText().toString(), date.getText().toString(), place.getText().toString(), time.getText().toString(), Double.parseDouble(price.getText().toString()), imagesPath);
         Gson gson = new Gson();
         String json = gson.toJson(post);
         Log.d("Post", json);

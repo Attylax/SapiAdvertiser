@@ -63,7 +63,7 @@ public class FileUploader extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (ACTION_UPLOAD.equals(intent.getAction())) {
-            Uri fileUri = intent.getParcelableExtra(EXTRA_FILE_URI);
+            Uri fileUri = Uri.parse(intent.getStringExtra(EXTRA_FILE_URI));
             uploadFromUri(fileUri);
         }
 

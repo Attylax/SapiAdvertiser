@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/almaafaalatt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RegisterActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="90dp" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/emailEditText"
+        android:ems="10"
+        android:inputType="textPassword"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="134dp"
+        tools:layout_editor_absoluteY="168dp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="93dp"
+        android:layout_height="49dp"
+        android:layout_above="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_marginBottom="-167dp"
+        android:text="E-mail:"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="90dp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="95dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="167dp"
+        android:text="Password:"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="41dp"
+        tools:layout_editor_absoluteY="168dp" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="152dp"
+        android:layout_height="52dp"
+        android:layout_centerInParent="true"
+        android:text="Register"
+        tools:layout_editor_absoluteX="108dp"
+        tools:layout_editor_absoluteY="257dp" />
+
+
+</RelativeLayout>

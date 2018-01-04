@@ -24,10 +24,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyC64y5-UcpSm6VuPgzzAX4C9_H9jFZos8E" />
 
-        <activity android:name=".MainActivity">
-
-        </activity>
-        <activity android:name=".NewPostActivity" />
+        <activity android:name=".MainActivity"
+            android:screenOrientation="sensorPortrait"></activity>
+        <activity android:name=".NewPostActivity"
+            android:screenOrientation="sensorPortrait" />
 
         <service
             android:name=".FileUploader"
@@ -53,6 +53,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RegisterActivity"></activity>
     </application>
 
 </manifest>

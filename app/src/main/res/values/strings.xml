@@ -26,4 +26,5 @@
     </string>
     <string name="signinfail">Error: sign in failed.</string>
     <string name="signinsuccess">User ID:</string>
+    <string name="Registration">Sign Up</string>
 </resources>

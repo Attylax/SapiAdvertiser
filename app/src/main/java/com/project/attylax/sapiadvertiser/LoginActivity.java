@@ -22,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputEmail, inputPassword;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
-
+    private Button register;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +106,15 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
                         });
+            }
+        });
+
+        register = findViewById(R.id.email_sign_up_button);
+
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             }
         });
     }

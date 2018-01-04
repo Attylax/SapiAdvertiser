@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshList(){
-        listOfEvents.clear();
+
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("posts");
         ref.addListenerForSingleValueEvent(
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         //Map<String, String> posts = dataSnapshot.getValue(Map.class);
-
+                        listOfEvents.clear();
 
 
                         for(DataSnapshot post : dataSnapshot.getChildren()){
@@ -94,5 +94,11 @@ public class MainActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshList();
     }
 }
