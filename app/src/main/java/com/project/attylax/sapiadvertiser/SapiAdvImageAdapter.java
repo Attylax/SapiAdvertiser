@@ -1,7 +1,6 @@
 package com.project.attylax.sapiadvertiser;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,10 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-
+/**
+ * The adapter which shows the images inside each individual post
+ * The images are visualized with the help of the "Glide" library
+ */
 public class SapiAdvImageAdapter extends RecyclerView.Adapter<SapiAdvImageAdapter.ViewHolder> {
     private List<String> imgPaths;
     private Context context;
@@ -24,6 +26,9 @@ public class SapiAdvImageAdapter extends RecyclerView.Adapter<SapiAdvImageAdapte
         scale = context.getResources().getDisplayMetrics().density;
     }
 
+    /**
+     * A simple ViewHolder which contains a reference to the image
+     */
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
 
@@ -39,6 +44,11 @@ public class SapiAdvImageAdapter extends RecyclerView.Adapter<SapiAdvImageAdapte
         return new ViewHolder(view);
     }
 
+    /**
+     * Loads the image from an URI
+     * @param holder: the ViewHolder containing the image
+     * @param position: the position of the image in the inner list; also the position of the source URI
+     */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Glide.with(context).load(imgPaths.get(position)).placeholder(R.drawable.dummy_image).override((int)(100*scale), (int)(100*scale)).centerCrop().into(holder.img);

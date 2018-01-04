@@ -1,9 +1,7 @@
 package com.project.attylax.sapiadvertiser;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,9 +18,12 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-
+/**
+ * The list of current posts can be seen here.
+ * Tapping a post opens the EventDetailsActivity
+ * Tapping the "+" button in the bottom right corner opens the NewPostActivity
+ */
 public class MainActivity extends AppCompatActivity {
     private Intent intent;
     private SapiAdvPostAdapter adapter;

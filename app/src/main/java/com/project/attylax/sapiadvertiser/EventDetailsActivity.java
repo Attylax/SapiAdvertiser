@@ -1,6 +1,5 @@
 package com.project.attylax.sapiadvertiser;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * The activity which is responsible for showing important information about the event
+ * Accessible via tapping on a post in the Main Activity
+ */
 public class EventDetailsActivity extends AppCompatActivity {
-    TextView tvTitle, tvDate, tvTime, tvPlace, tvDesc;
+    TextView tvTitle, tvDate, tvTime, tvPlace, tvDesc, tvPrice;
     RecyclerView rvImages;
     ArrayList<ImageView> images;
     List<String> imgPaths = new ArrayList<>();
@@ -28,6 +31,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         tvTime = findViewById(R.id.tv_post_time);
         tvPlace = findViewById(R.id.tv_post_place);
         tvDesc = findViewById(R.id.tv_post_desc);
+        tvPrice = findViewById(R.id.tv_post_price);
         rvImages = findViewById(R.id.rv_post_images);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvImages.setLayoutManager(llm);
@@ -38,13 +42,9 @@ public class EventDetailsActivity extends AppCompatActivity {
             tvTime.setText(postData.getEventTime());
             tvPlace.setText(postData.getEventLocation());
             tvDesc.setText(postData.getDescription());
+            tvPrice.setText(String.format("Price: %s", String.valueOf(postData.getPrice())));
             imgPaths = postData.getImagesPath();
             images = new ArrayList<>(imgPaths.size());
-
-            /*for (int i = 0; i < imgPaths.size(); ++i){
-                images.add(new ImageView(this));
-                Glide.with(this).load(imgPaths.get(i)).into(images.get(i));
-            }*/
 
             rvImages.setAdapter(new SapiAdvImageAdapter(this, imgPaths));
 

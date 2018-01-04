@@ -1,9 +1,5 @@
 package com.project.attylax.sapiadvertiser;
-/**
- * Created by attylax on 04.12.2017.
- */
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
@@ -11,6 +7,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The Post structure which contains relevant information about an event,
+ * such as its title, the poster's name, its date, time and location, and a description about the event itself
+ * Implements the Parcelable interface, for easy transfer between intents
+ */
 public class Post implements Parcelable{
     private static final String TAG = "POST";
     private String eventName;
@@ -26,7 +27,7 @@ public class Post implements Parcelable{
 
     private List<String> imagesPath = new ArrayList<>();
 
-    public Post(String eventName, String writerName, String writerId, String description, String descShort, String eventDate, String eventLocation, String eventTime, double price, List<String> imagesPath) {
+    Post(String eventName, String writerName, String writerId, String description, String descShort, String eventDate, String eventLocation, String eventTime, double price, List<String> imagesPath) {
         this.eventName = eventName;
         this.writerName = writerName;
         this.writerId = writerId;
@@ -37,10 +38,6 @@ public class Post implements Parcelable{
         this.eventTime = eventTime;
         this.price = price;
         this.imagesPath = imagesPath;
-    }
-
-    public Post(){
-
     }
 
     @Override
@@ -61,19 +58,15 @@ public class Post implements Parcelable{
 
         dest.writeString(Double.toString(price));
         Log.d("Post", Double.toString(price));
-        //dest.write
-        //List<String> uriInString = new ArrayList<>(3);
         for(String uri : imagesPath){
 
-            //uriInString.add(uri.toString());
-            Log.d("Post", uri.toString());
-            dest.writeString(uri.toString());
+            Log.d("Post", uri);
+            dest.writeString(uri);
         }
-        //dest.writeList(uriInString);
 
     }
 
-    public Post(Parcel in){
+    private Post(Parcel in){
         eventName = in.readString();
         Log.d("Post", eventName);
         writerName = in.readString();
@@ -96,9 +89,8 @@ public class Post implements Parcelable{
         Log.d("Post", Double.toString(price));
 
         for(int i = 0; i < 3; ++i){
-            //imagesPath.add(Uri.parse(in.readString()));
             imagesPath.add(in.readString());
-            Log.d("Post", imagesPath.get(i).toString());
+            Log.d("Post", imagesPath.get(i));
         }
     }
 
